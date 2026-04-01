@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rubén Castelar | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        html { scroll-behavior: smooth; }
+        :root {
+            --bg-color: #faf9f6; --text-main: #1c1c1c; --text-secondary: #6b7280;
+            --card-bg: rgba(255, 255, 255, 0.5); --card-border: rgba(0, 0, 0, 0.08);
+            --line-color: rgba(0, 0, 0, 0.05); --icon-bg: rgba(255, 255, 255, 0.8);
+            --toggle-icon: #000; --tag-bg: rgba(0,0,0,0.03); --particle-color: rgba(0, 0, 0, 0.25);
+            --input-bg: rgba(0, 0, 0, 0.02);
+        }
+        .dark {
+            --bg-color: #0d0d0d; --text-main: #f3f4f6; --text-secondary: #9ca3af;
+            --card-bg: rgba(30, 30, 30, 0.7); --card-border: rgba(255, 255, 255, 0.15);
+            --line-color: rgba(255, 255, 255, 0.1); --icon-bg: rgba(40, 40, 40, 0.9);
+            --toggle-icon: #fff; --tag-bg: rgba(255,255,255,0.05); --particle-color: rgba(255, 255, 255, 0.35);
+            --input-bg: rgba(255, 255, 255, 0.03);
+        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; transition: background-color 0.6s ease; overflow-x: hidden; }
+        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
+        
+        nav { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease; }
+        .nav-hidden { transform: translate(-50%, -150%) !important; opacity: 0; }
+
+        .sun-icon { opacity: 1; transform: scale(1) rotate(0deg); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .moon-icon { opacity: 0; transform: scale(0) rotate(-90deg); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: absolute; }
+        .dark .sun-icon { opacity: 0; transform: scale(0) rotate(90deg); }
+        .dark .moon-icon { opacity: 1; transform: scale(1) rotate(0deg); }
+
+        .terminal-title { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3em; opacity: 0.5; display: flex; align-items: center; gap: 8px; margin-bottom: 1.5rem; }
+        .terminal-title::before { content: ">"; color: #1d9bf0; }
+        .fade-in-section { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in-section.visible { opacity: 1; transform: translateY(0); }
+
+        .social-container { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1.5rem; flex-wrap: wrap; }
+        .social-item { position: relative; }
+        .icon-btn { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: var(--icon-bg); border: 1px solid var(--card-border); transition: all 0.3s ease; color: var(--text-main); }
+        .icon-btn:hover { background: #000; color: #fff; transform: translateY(-3px); }
+        .dark .icon-btn:hover { background: #fff; color: #000; }
+
+        .preview-box { position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%) translateY(10px); width: auto; min-width: 100px; white-space: nowrap; background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid var(--card-border); border-radius: 10px; padding: 6px 12px; opacity: 0; pointer-events: none; transition: all 0.4s ease; z-index: 50; text-align: center; }
+        .social-item:hover .preview-box { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+
+        .exp-card { background: var(--card-bg); backdrop-filter: blur(10px); border: 1px solid var(--card-border); border-radius: 12px; padding: 1rem; cursor: pointer; margin-bottom: 1.5rem; position: relative; }
+        .role-title { font-weight: 700; font-size: 0.95rem; }
+        .role-meta { font-size: 0.8rem; opacity: 0.4; margin-top: 0.1rem; }
+        .expand-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+        .exp-card.active .expand-content { max-height: 200px; padding-top: 1rem; }
+        
+        /* Ajuste de centrado en los botones (tags) */
+        .tag { background: var(--tag-bg); border: 1px solid var(--card-border); border-radius: 6px; padding: 4px 10px; font-size: 0.7rem; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 6px; line-height: 1; }
+
+        .project-preview { width: 100%; aspect-ratio: 16/9; background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 8px; overflow: hidden; margin-bottom: 1rem; }
+        .project-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: opacity 0.3s ease; }
+        .exp-card:hover .project-preview img { opacity: 1; }
+
+        .contact-input { background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 10px 14px; font-size: 0.85rem; width: 100%; transition: border-color 0.3s ease; outline: none; display: block; color: inherit; }
+        .contact-input:focus { border-color: #1d9bf0; }
+        .contact-btn { background: var(--text-main); color: var(--bg-color); font-weight: 700; padding: 12px; border-radius: 10px; font-size: 0.85rem; width: 100%; transition: all 0.3s; cursor: pointer; border: none; }
+        .contact-btn:hover { opacity: 0.9; }
+
+        .letter { display: inline-block; opacity: 0; transform: translateY(-10px); transition: all 0.5s ease; }
+        .letter.in { opacity: 1; transform: translateY(0); }
+        .letter.out { opacity: 0; transform: translateY(10px); }
+
+        .about-list li { display: flex; align-items: start; gap: 12px; margin-bottom: 16px; }
+        .about-dot { width: 6px; height: 6px; background-color: #1d9bf0; border-radius: 50%; margin-top: 8px; flex-shrink: 0; }
+
+        .nav-link.active { background: var(--text-main); color: var(--bg-color); opacity: 1; }
+
+        /* Estilo para el botón de ver más proyectos */
+        .view-all-btn { display: inline-flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 700; opacity: 0.6; transition: all 0.3s ease; margin-top: 0.5rem; color: inherit; }
+        .view-all-btn:hover { opacity: 1; transform: translateX(4px); color: #1d9bf0; }
+    </style>
+</head>
+<body class="px-6 py-16">
+    <nav id="main-nav" class="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-auto">
+        <div class="flex items-center gap-1 p-1 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-md border border-black/5 dark:border-white/10 rounded-full shadow-sm">
+            <a href="gemini-portfolio.html" class="nav-link px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 hover:opacity-100 opacity-50" id="nav-inicio">Inicio</a>
+            <a href="proyectos.html" class="nav-link px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 hover:opacity-100 opacity-50" id="nav-proyectos">Mis Proyectos</a>
+            <a href="waitlist.html" class="nav-link px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 hover:opacity-100 opacity-50" id="nav-waitlist">Waitlist</a>
+        </div>
+    </nav>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <main class="max-w-xl mx-auto relative pt-12">
+        <header class="flex flex-col items-center text-center mb-8">
+            <div class="relative w-24 h-24 mb-6">
+                <div class="absolute inset-0 bg-black rounded-[2rem] rotate-6 opacity-5 dark:opacity-20"></div>
+                <div class="relative w-full h-full bg-white dark:bg-zinc-800 rounded-[2rem] border border-white dark:border-zinc-700 overflow-hidden shadow-sm">
+                    <img src="image_0.JPG" alt="Rubén Castelar" class="w-full h-full object-cover">
+                </div>
+            </div>
+            <div class="flex items-center justify-center gap-3">
+                <h1 class="text-4xl font-bold tracking-tight">Rubi</h1>
+                <svg class="w-6 h-6 text-[#1d9bf0] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor" style="min-width: 24px; min-height: 24px;">
+                    <path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.97-.81-4.08s-2.69-1.27-4.08-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.98-.2-4.09.81s-1.27 2.69-.81 4.08c-1.31.67-2.19 1.91-2.19 3.34s.88 2.67 2.19 3.34c-.46 1.39-.2 2.97.81 4.08s2.69 1.27 4.08.81c.66 1.31 1.91 2.19 3.34 2.19s2.67-.88 3.33-2.19c1.4.46 2.98.2 4.09-.81s1.27-2.69.81-4.08c1.31-.67 2.19-1.91 2.19-3.34zm-11.71 4.17l-3.37-3.37 1.42-1.42 1.95 1.95 4.95-4.95 1.42 1.42-6.37 6.37z"/>
+                </svg>
+                
+                <button id="theme-toggle" class="p-2 bg-black/5 dark:bg-white/5 rounded-full transition-colors duration-300">
+                    <div class="relative w-5 h-5 flex items-center justify-center" style="color: var(--toggle-icon)">
+                        <i data-lucide="sun" class="sun-icon"></i>
+                        <i data-lucide="moon" class="moon-icon"></i>
+                    </div>
+                </button>
+                <button id="lang-toggle" class="font-mono text-[0.6rem] font-bold px-2 py-1 bg-black/5 dark:bg-white/5 rounded">EN</button>
+            </div>
+            <div class="h-6 mt-1 flex items-center justify-center"><p id="dynamic-text" class="text-secondary font-medium text-sm tracking-wide"></p></div>
+            
+            <div class="social-container">
+                <div class="social-item">
+                    <div class="preview-box"><span class="text-[0.6rem] font-bold">@RubenCastelar</span></div>
+                    <a href="https://github.com/RubenCastelar" target="_blank" class="icon-btn" title="GitHub">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                    </a>
+                </div>
+                <div class="social-item">
+                    <div class="preview-box"><span class="text-[0.6rem] font-bold">LinkedIn</span></div>
+                    <a href="https://www.linkedin.com/in/rub%C3%A9n-castelar-zaballos-0295812a5/" target="_blank" class="icon-btn" title="LinkedIn">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    </a>
+                </div>
+                <div class="social-item">
+                    <div class="preview-box"><span class="text-[0.6rem] font-bold">@rubi_castelar</span></div>
+                    <a href="https://www.instagram.com/rubi_castelar/" target="_blank" class="icon-btn" title="Instagram">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    </a>
+                </div>
+                <div class="social-item">
+                    <div class="preview-box"><span class="text-[0.6rem] font-bold">@rubicastelar</span></div>
+                    <a href="https://x.com/rubicastelar" target="_blank" class="icon-btn" title="X">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.292 19.49h2.039L6.486 3.24H4.298l13.311 17.403z"/></svg>
+                    </a>
+                </div>
+                <div class="social-item">
+                    <div class="preview-box"><span class="text-[0.6rem] font-bold">@rubi_castelar</span></div>
+                    <a href="https://www.tiktok.com/@rubi_castelar" target="_blank" class="icon-btn" title="TikTok">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.59-5.71-.29-2.63.85-5.21 2.86-6.84 1.28-1.01 2.85-1.54 4.5-1.53.05 1.29 0 2.58.01 3.87-1.3-.14-2.71.21-3.64 1.14-.81.8-1.15 1.97-.98 3.08.14 1.1.8 2.11 1.71 2.75 1.1.76 2.54.91 3.79.37 1.11-.42 1.95-1.4 2.23-2.56.12-.62.11-1.26.11-1.89V.02z"/></svg>
+                    </a>
+                </div>
+                <div class="social-item">
+                    <div class="preview-box"><span class="text-[0.6rem] font-bold">@Rubi.Castelar</span></div>
+                    <a href="https://www.youtube.com/@Rubi.Castelar" target="_blank" class="icon-btn" title="YouTube">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                    </a>
+                </div>
+                <div class="social-item">
+                    <div class="preview-box"><span class="text-[0.55rem] font-bold">Email</span></div>
+                    <a href="mailto:rubencastelarcontacto@gmail.com" class="icon-btn" title="Email">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L12 9.573l8.073-6.08c1.618-1.214 3.927-.059 3.927 1.964z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <div class="h-px w-full bg-black/5 dark:bg-white/5 my-10"></div>
+
+        <section class="fade-in-section mb-10">
+            <h2 class="terminal-title" data-i18n="about_title">Sobre mí</h2>
+            <div class="glass-card !p-6">
+                <ul class="about-list leading-relaxed font-light italic text-sm md:text-base">
+                    <li><div class="about-dot"></div><span data-i18n="about_1"></span></li>
+                    <li><div class="about-dot"></div><span data-i18n="about_2"></span></li>
+                    <li><div class="about-dot"></div><span data-i18n="about_3"></span></li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="h-px w-full bg-black/5 dark:bg-white/5 my-10"></div>
+
+        <section class="fade-in-section mb-10">
+            <h2 class="terminal-title" data-i18n="projects_title">Proyectos más recientes</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="exp-card">
+                    <a href="https://www.erbi.es/" target="_blank" class="absolute inset-0 z-10" aria-label="Visitar Erbi"></a>
+                    <div class="project-preview">
+                        <img src="Erbi2.png" alt="Web Preview"> 
+                    </div>
+                    <div class="flex items-center gap-3 mb-2">
+                         <div class="p-1.5 rounded-md bg-black/5 dark:bg-white/5"><i data-lucide="layout" class="w-4 h-4 text-[#1d9bf0]"></i></div>
+                         <h3 class="role-title" data-i18n="proj_1_name">Mi Proyecto Web</h3>
+                    </div>
+                    <p class="text-xs opacity-70 italic mb-4" data-i18n="proj_1_desc">Descripción del proyecto web.</p>
+                    <div class="flex flex-wrap gap-2 items-center relative z-20">
+                        <div class="tag !bg-[#1d9bf0] !text-white">
+                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                            <span data-i18n="proj_visit">Visitar</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exp-card">
+                    <a href="https://www.erbi.es/" target="_blank" class="absolute inset-0 z-10" aria-label="Visitar Proyecto App"></a>
+                    <div class="project-preview">
+                        <img src="reconocimientofacial.jpg" alt="Reconocimiento facial"> 
+                    </div>
+                    <div class="flex items-center gap-3 mb-2">
+                         <div class="p-1.5 rounded-md bg-black/5 dark:bg-white/5"><i data-lucide="smartphone" class="w-4 h-4 text-[#1d9bf0]"></i></div>
+                         <h3 class="role-title" data-i18n="proj_2_name">Mi Proyecto App</h3>
+                    </div>
+                    <p class="text-xs opacity-70 italic mb-4" data-i18n="proj_2_desc">Descripción de la aplicación móvil.</p>
+                    <div class="flex flex-wrap gap-2 relative z-20">
+                        <div class="tag !bg-[#1d9bf0] !text-white">
+                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                            <span data-i18n="proj_visit">Visitar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end mt-4">
+                <a href="proyectos.html" class="view-all-btn">
+                    <span data-i18n="view_all_projects">Ver todos mis proyectos</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </section>
+        
+        <div class="h-px w-full bg-black/5 dark:bg-white/5 my-10"></div>
+
+        <section class="fade-in-section mb-10">
+            <h2 class="terminal-title" data-i18n="experience_title">Experiencia</h2>
+            <div class="exp-container">
+                <h3 class="font-bold text-lg mb-3 pl-1" data-i18n="exp_work_label">Laboral</h3>
+                <div class="exp-card" onclick="this.classList.toggle('active')">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="p-2 rounded-lg bg-black/5"><i data-lucide="code-2" class="w-5 h-5 text-[#1d9bf0]"></i></div>
+                            <div><div class="role-title" data-i18n="exp_role_caf"></div><div class="role-meta" data-i18n="exp_meta_caf"></div></div>
+                        </div>
+                        <i data-lucide="chevron-down" class="opacity-40"></i>
+                    </div>
+                    <div class="tag-list mt-4 flex flex-wrap gap-2"><span class="tag">Python</span><span class="tag">C++</span><span class="tag">Cybersec</span><span class="tag">Linux</span></div>
+                    <div class="expand-content text-sm opacity-70 italic" data-i18n="exp_desc_caf"></div>
+                </div>
+
+                <div class="exp-card" onclick="this.classList.toggle('active')">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="p-2 rounded-lg bg-black/5"><i data-lucide="book-open" class="w-5 h-5 text-[#1d9bf0]"></i></div>
+                            <div><div class="role-title" data-i18n="exp_role_tutor"></div><div class="role-meta" data-i18n="exp_meta_tutor"></div></div>
+                        </div>
+                        <i data-lucide="chevron-down" class="opacity-40"></i>
+                    </div>
+                    <div class="tag-list mt-4 flex flex-wrap gap-2"><span class="tag">Java</span><span class="tag">Python</span><span class="tag">C</span><span class="tag">Algoritmia</span></div>
+                    <div class="expand-content text-sm opacity-70 italic" data-i18n="exp_desc_tutor"></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="h-px w-full bg-black/5 dark:bg-white/5 my-10"></div>
+
+        <section class="fade-in-section mb-10"><h2 class="terminal-title" data-i18n="edu_title">Formación</h2><div class="space-y-4">
+            <div class="glass-card !py-6 !px-6 flex items-start gap-4"><div class="p-2 rounded-lg bg-black/5"><i data-lucide="graduation-cap" class="w-5 h-5"></i></div><div><h3 class="font-bold" data-i18n="edu_uni"></h3><p class="role-meta" data-i18n="edu_honor"></p></div></div>
+            <div class="glass-card !py-6 !px-6 flex items-start gap-4"><div class="p-2 rounded-lg bg-black/5"><i data-lucide="graduation-cap" class="w-5 h-5"></i></div><div><h3 class="font-bold" data-i18n="edu_hs"></h3><p class="role-meta" data-i18n="edu_hs_desc"></p></div></div>
+        </div></section>
+
+        <div class="h-px w-full bg-black/5 dark:bg-white/5 my-10"></div>
+
+        <section class="fade-in-section mb-12">
+            <h2 class="terminal-title" data-i18n="contact_title">Contacto</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-2" data-i18n="contact_subtitle">Hablemos</h3>
+                    <p class="text-sm opacity-50 mb-6" data-i18n="contact_desc">¿Tienes un proyecto o solo quieres saludar? ¡Escríbeme!</p>
+                    <div class="space-y-4">
+                        <div class="glass-card !p-4 flex items-center gap-4">
+                            <div class="p-2 rounded-lg bg-black/5"><i data-lucide="mail" class="w-4 h-4"></i></div>
+                            <div><p class="text-[0.6rem] font-bold opacity-30 uppercase">Email</p><p class="text-xs font-bold">rubencastelarcontacto@gmail.com</p></div>
+                        </div>
+                    </div>
+                </div>
+                <form id="contact-form" action="https://formspree.io/f/xojpwewb" method="POST" class="glass-card !p-6 space-y-4">
+                    <div>
+                        <label class="text-[0.65rem] font-bold opacity-40 uppercase ml-1" data-i18n="contact_label_name">Nombre</label>
+                        <input type="text" name="name" required class="contact-input" data-i18n-placeholder="contact_placeholder_name">
+                    </div>
+                    <div>
+                        <label class="text-[0.65rem] font-bold opacity-40 uppercase ml-1" data-i18n="contact_label_email">Email</label>
+                        <input type="email" name="email" required class="contact-input" data-i18n-placeholder="contact_placeholder_email">
+                    </div>
+                    <div>
+                        <label class="text-[0.65rem] font-bold opacity-40 uppercase ml-1" data-i18n="contact_label_msg">Mensaje</label>
+                        <textarea name="message" required class="contact-input h-24 resize-none" data-i18n-placeholder="contact_placeholder_msg"></textarea>
+                    </div>
+                    <button type="submit" id="submit-btn" class="contact-btn flex items-center justify-center gap-2">
+                        <span id="btn-text" data-i18n="contact_send">Enviar Mensaje</span>
+                        <i id="btn-icon" data-lucide="send-horizontal" class="w-4 h-4"></i>
+                    </button>
+                    <p id="form-status" class="text-[0.7rem] text-center font-bold hidden"></p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: null, y: null, radius: 150 };
+        let currentParticleColor = '';
+
+        function updateParticleColor() {
+            currentParticleColor = getComputedStyle(document.body).getPropertyValue('--particle-color');
+        }
+
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        window.addEventListener('resize', () => { init(); });
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 0.3 - 0.15;
+                this.speedY = Math.random() * 0.3 - 0.15;
+            }
+            update() {
+                this.x += this.speedX; this.y += this.speedY;
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+            }
+            draw() {
+                ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(Math.PI / 4);
+                ctx.fillStyle = currentParticleColor;
+                ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size); ctx.restore();
+            }
+        }
+
+        function init() {
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            updateParticleColor();
+            particles = []; for (let i = 0; i < 40; i++) particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update(); particles[i].draw();
+                for (let j = i; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 140) {
+                        ctx.strokeStyle = currentParticleColor;
+                        ctx.lineWidth = 0.6; ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
+                    }
+                }
+                const dxm = particles[i].x - mouse.x; const dym = particles[i].y - mouse.y;
+                const distMouse = Math.sqrt(dxm * dxm + dym * dym);
+                if (distMouse < mouse.radius) {
+                    ctx.strokeStyle = '#1d9bf044'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        init(); animateParticles();
+
+        const i18n = {
+            es: {
+                about_title: "Sobre mí",
+                about_1: "Soy un constructor en constante evolución que cree en el aprendizaje a través de la creación. Me apasiona trabajar en la intersección de la IA y el impacto tangible, ya sea diseñando sistemas complejos o experimentando con LLMs para materializar ideas.",
+                about_2: "En esencia, me mueve la curiosidad. No solo por la tecnología en sí, sino por cómo esta moldea nuestra forma de pensar y crecer. Esa inquietud me empuja a ir más allá del código, explorando el propósito detrás de cada desarrollo.",
+                about_3: "Para mí, el crecimiento no se mide solo en logros, sino en alcanzar una mayor disciplina y consciencia. Es un proceso de alineación personal y profesional en el que trabajo día a día.",
+                projects_title: "Proyectos más recientes",
+                proj_1_name: "SEO | Diseño de página web",
+                proj_1_desc: "Interfaces modernas diseñadas para ofrecer una experiencia de usuario fluida y minimalista.",
+                proj_2_name: "Detector facial + IA",
+                proj_2_desc: "Solución para personas que se muerden las uñas o se tocan los granos inconscientemente.",
+                proj_visit: "Visitar",
+                view_all_projects: "Ver todos mis proyectos",
+                experience_title: "Experiencia", exp_work_label: "Laboral",
+                exp_role_caf: "CAF | Ingeniero de Ciberseguridad", exp_meta_caf: "Prácticas / TFG · 2025 — Actual", exp_desc_caf: "Mejora de la integridad y autenticidad en las comunicaciones RawEthernet dentro del entorno ferroviario, evolucionando los mecanismos de seguridad actuales hacia soluciones criptográficas más robustas.",
+                exp_role_tutor: "Profesor Particular de Programación", exp_meta_tutor: "Freelance · 2023 — 2025", exp_desc_tutor: "Apoyo académico y mentoría en asignaturas técnicas para estudiantes universitarios.",
+                edu_title: "Formación", edu_uni: "Ingeniería Informática - UPV/EHU", edu_honor: "Matrícula de Honor en Detección y Explotación de Vulnerabilidades", edu_hs: "Bachillerato Científico", edu_hs_desc: "Aldapeta Maria | Premio Real Sociedad a la idea más original.",
+                contact_title: "Contacto", contact_subtitle: "Hablemos", contact_desc: "¿Tienes un proyecto o solo quieres saludar?",
+                contact_label_name: "Nombre", contact_placeholder_name: "Tu nombre...",
+                contact_label_email: "Email", contact_placeholder_email: "tu@email.com",
+                contact_label_msg: "Mensaje", contact_placeholder_msg: "¿En qué puedo ayudarte?",
+                contact_send: "Enviar Mensaje", sending: "Enviando...", sent: "¡Enviado!",
+                success_msg: "¡Mensaje enviado con éxito!", error_msg: "Ups, algo salió mal.",
+                phrases: ["21 años", "Ingeniero Informático"]
+            },
+            en: {
+                about_title: "About Me",
+                about_1: "I see myself as a builder in motion, someone who learns by doing and evolves through creation. I thrive at the intersection of AI and real-world impact—architecting systems and experimenting with LLMs to bring ambitious ideas to life.",
+                about_2: "My curiosity extends far beyond the screen; I’m fascinated by how technology redefines the way we think, act, and grow. This drive keeps me searching for meaning and purpose in every line of code I write.",
+                about_3: "I view growth not as a collection of trophies, but as the constant pursuit of awareness and discipline. I am deeply committed to the ongoing work of aligning my daily actions with my long-term vision.",
+                projects_title: "Recent projects",
+                proj_1_name: "Website design | SEO",
+                proj_1_desc: "Modern interfaces designed to provide a fluid and minimalist user experience.",
+                proj_2_name: "Mobile Apps",
+                proj_2_desc: "Mobile solutions focused on real-world utility and optimized performance.",
+                proj_visit: "Visit",
+                view_all_projects: "View all my projects",
+                experience_title: "Experience", exp_work_label: "Work",
+                exp_role_caf: "Cybersecurity Engineer", exp_meta_caf: "Internship / Thesis · 2025 — Present", exp_desc_caf: "Improving the integrity and authenticity of RawEthernet communications within the railway environment, evolving current security mechanisms towards more robust cryptographic solutions.",
+                exp_role_tutor: "Private Programming Tutor", exp_meta_tutor: "Freelance · 2023 — 2025", exp_desc_tutor: "Academic support and mentoring in technical subjects for university students.",
+                edu_title: "Education", edu_uni: "BSc Computer Engineering - UPV/EHU", edu_honor: "Distinction in Vulnerability Detection and Exploitation", edu_hs: "Scientific High School", edu_hs_desc: "Aldapeta Maria | Real Sociedad's Most Original Idea Award.",
+                contact_title: "Contact", contact_subtitle: "Let's Connect", contact_desc: "Have a project or just want to chat?",
+                contact_label_name: "Name", contact_placeholder_name: "Your name...",
+                contact_label_email: "Email", contact_placeholder_email: "you@email.com",
+                contact_label_msg: "Message", contact_placeholder_msg: "How can I help you?",
+                contact_send: "Send Message", sending: "Sending...", sent: "Sent!",
+                success_msg: "Message sent successfully!", error_msg: "Oops, something went wrong.",
+                phrases: ["21 years old", "Computer Engineer"]
+            }
+        };
+
+        const contactForm = document.getElementById('contact-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const btnText = document.getElementById('btn-text');
+        const btnIcon = document.getElementById('btn-icon');
+        const statusMsg = document.getElementById('form-status');
+
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            submitBtn.disabled = true;
+            btnText.innerText = i18n[currentLang].sending;
+            const formData = new FormData(contactForm);
+            try {
+                const response = await fetch(contactForm.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
+                if (response.ok) {
+                    statusMsg.innerText = i18n[currentLang].success_msg;
+                    statusMsg.className = "text-[0.7rem] text-center font-bold block text-green-500 mt-2";
+                    contactForm.reset();
+                    btnText.innerText = i18n[currentLang].sent;
+                    btnIcon.setAttribute('data-lucide', 'check');
+                    lucide.createIcons();
+                } else { throw new Error(); }
+            } catch (err) {
+                statusMsg.innerText = i18n[currentLang].error_msg;
+                statusMsg.className = "text-[0.7rem] text-center font-bold block text-red-500 mt-2";
+                btnText.innerText = i18n[currentLang].contact_send;
+                submitBtn.disabled = false;
+            }
+            setTimeout(() => {
+                statusMsg.classList.add('hidden');
+                btnText.innerText = i18n[currentLang].contact_send;
+                btnIcon.setAttribute('data-lucide', 'send-horizontal');
+                submitBtn.disabled = false;
+                lucide.createIcons();
+            }, 5000);
+        });
+
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.body.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateParticleColor();
+        });
+
+        let currentLang = 'es';
+        document.getElementById('lang-toggle').addEventListener('click', (e) => {
+            currentLang = currentLang === 'es' ? 'en' : 'es'; e.target.innerText = currentLang === 'es' ? 'EN' : 'ES'; updateContent();
+        });
+
+        function updateContent() {
+            document.querySelectorAll('[data-i18n]').forEach(el => { el.innerText = i18n[currentLang][el.getAttribute('data-i18n')]; });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { el.placeholder = i18n[currentLang][el.getAttribute('data-i18n-placeholder')]; });
+            currentIndex = 0; animateCycle();
+        }
+
+        const textElement = document.getElementById('dynamic-text');
+        let currentIndex = 0; let animationTimeout;
+        function setPhraseInDOM(phrase) {
+            textElement.innerHTML = ''; phrase.split('').forEach((char, index) => {
+                const span = document.createElement('span'); span.className = char === ' ' ? 'letter space' : 'letter'; span.innerHTML = char === ' ' ? '&nbsp;' : char;
+                span.style.transitionDelay = `${index * 0.04}s`; textElement.appendChild(span);
+            });
+        }
+        function animateCycle() {
+            clearTimeout(animationTimeout); const phrases = i18n[currentLang].phrases; setPhraseInDOM(phrases[currentIndex]);
+            void textElement.offsetWidth; textElement.querySelectorAll('.letter').forEach(span => span.classList.add('in'));
+            animationTimeout = setTimeout(() => {
+                textElement.querySelectorAll('.letter').forEach(s => { s.classList.remove('in'); s.classList.add('out'); });
+                animationTimeout = setTimeout(() => { currentIndex = (currentIndex + 1) % phrases.length; animateCycle(); }, 800);
+            }, 3000);
+        }
+        
+        animateCycle();
+        const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in-section').forEach(section => observer.observe(section));
+        
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') { document.body.classList.add('dark'); }
+
+        const currentPath = window.location.pathname;
+        if (currentPath.includes('proyectos.html')) {
+            document.getElementById('nav-proyectos').classList.add('active');
+        } 
+        else if (currentPath.includes('waitlist.html')) {
+           document.getElementById('nav-waitlist').classList.add('active');
+        }
+        else if (currentPath.includes('index.html')) {
+           document.getElementById('nav-inicio').classList.add('active');
+        }
+        else {
+            document.getElementById('nav-inicio').classList.add('active');
+        }
+
+        let lastScrollY = window.scrollY;
+        const mainNav = document.getElementById('main-nav');
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                mainNav.classList.add('nav-hidden');
+            } else {
+                mainNav.classList.remove('nav-hidden');
+            }
+            lastScrollY = currentScrollY;
+        });
+
+        updateContent();
+        updateParticleColor();
+        lucide.createIcons();
+    </script>
+</body>
+</html>
