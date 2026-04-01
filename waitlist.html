@@ -51,7 +51,7 @@
         .waitlist-card { background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid var(--card-border); border-radius: 24px; padding: 2.5rem 2rem; width: 100%; max-width: 450px; text-align: center; }
         
         .email-input { background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-main); transition: all 0.3s ease; }
-        .email-input:focus { outline: none; border-color: #1d9bf0; ring: 2px; ring-color: #1d9bf033; }
+        .email-input:focus { outline: none; border-color: #1d9bf0; outline: 2px solid #1d9bf033; }
 
         .submit-btn { background: #1d9bf0; color: white; transition: all 0.3s ease; font-weight: 700; letter-spacing: 0.025em; }
         .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -10px rgba(29, 155, 240, 0.5); opacity: 0.9; }
@@ -65,9 +65,9 @@
 <body class="px-6 flex items-center justify-center">
     <nav id="main-nav" class="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-auto">
         <div class="flex items-center gap-1 p-1 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-md border border-black/5 dark:border-white/10 rounded-full shadow-sm">
-            <a href="index.html" class="nav-link px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 hover:opacity-100 opacity-50" id="nav-inicio">Inicio</a>
-            <a href="proyectos.html" class="nav-link px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 hover:opacity-100 opacity-50" id="nav-proyectos">Mis Proyectos</a>
-            <a href="waitlist.html" class="nav-link px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 hover:opacity-100 opacity-50" id="nav-waitlist">Waitlist</a>
+            <a href="index.html" class="nav-link px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 hover:opacity-100 opacity-50" id="nav-inicio" data-i18n="nav_home">Inicio</a>
+            <a href="proyectos.html" class="nav-link px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 hover:opacity-100 opacity-50" id="nav-proyectos" data-i18n="nav_projects">Mis Proyectos</a>
+            <a href="waitlist.html" class="nav-link px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 hover:opacity-100 opacity-50" id="nav-waitlist" data-i18n="nav_waitlist">Waitlist</a>
         </div>
     </nav>
 
@@ -263,7 +263,10 @@
                 waitlist_desc: "Únete a la lista de espera exclusiva para ser el primero en probar lo que estoy construyendo.",
                 join_btn: "Apuntarme a la lista",
                 no_spam: "Sin spam. Solo el lanzamiento.",
-                phrases: ["App en desarrollo", "Waitlist abierta"]
+                phrases: ["App en desarrollo", "Waitlist abierta"],
+                nav_home: "Inicio",
+                nav_projects: "Mis Proyectos",
+                nav_waitlist: "Waitlist"
             },
             en: {
                 waitlist_title: "Coming Soon",
@@ -271,7 +274,10 @@
                 waitlist_desc: "Join the exclusive waitlist to be the first to try what I'm building.",
                 join_btn: "Join Waitlist",
                 no_spam: "No spam. Just the launch.",
-                phrases: ["App in progress", "Waitlist open"]
+                phrases: ["App in progress", "Waitlist open"],
+                nav_home: "Home",
+                nav_projects: "My Projects",
+                nav_waitlist: "Waitlist"
             }
         };
 
@@ -282,9 +288,12 @@
             updateParticleColor();
         });
 
-        let currentLang = 'es';
+        let currentLang = localStorage.getItem('language') || 'es';
         document.getElementById('lang-toggle').addEventListener('click', (e) => {
-            currentLang = currentLang === 'es' ? 'en' : 'es'; e.target.innerText = currentLang === 'es' ? 'EN' : 'ES'; updateContent();
+            currentLang = currentLang === 'es' ? 'en' : 'es'; 
+            localStorage.setItem('language', currentLang);
+            e.target.innerText = currentLang === 'se' ? 'EN' : 'ES'; 
+            updateContent();
         });
 
         function updateContent() {

@@ -83,9 +83,9 @@
 <body class="px-6 py-16">
     <nav id="main-nav" class="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-auto">
         <div class="flex items-center gap-1 p-1 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-md border border-black/5 dark:border-white/10 rounded-full shadow-sm">
-            <a href="gemini-portfolio.html" class="nav-link px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 hover:opacity-100 opacity-50" id="nav-inicio">Inicio</a>
-            <a href="proyectos.html" class="nav-link px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 hover:opacity-100 opacity-50" id="nav-proyectos">Mis Proyectos</a>
-            <a href="waitlist.html" class="nav-link px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 hover:opacity-100 opacity-50" id="nav-waitlist">Waitlist</a>
+            <a href="index.html" class="nav-link px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 hover:opacity-100 opacity-50" id="nav-inicio" data-i18n="nav_home">Inicio</a>
+            <a href="proyectos.html" class="nav-link px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 hover:opacity-100 opacity-50" id="nav-proyectos" data-i18n="nav_projects">Mis Proyectos</a>
+            <a href="waitlist.html" class="nav-link px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 hover:opacity-100 opacity-50" id="nav-waitlist" data-i18n="nav_waitlist">Waitlist</a>
         </div>
     </nav>
 
@@ -387,7 +387,10 @@
                 contact_label_msg: "Mensaje", contact_placeholder_msg: "¿En qué puedo ayudarte?",
                 contact_send: "Enviar Mensaje", sending: "Enviando...", sent: "¡Enviado!",
                 success_msg: "¡Mensaje enviado con éxito!", error_msg: "Ups, algo salió mal.",
-                phrases: ["21 años", "Ingeniero Informático"]
+                phrases: ["21 años", "Ingeniero Informático"],
+                nav_home: "Inicio",
+                nav_projects: "Mis Proyectos",
+                nav_waitlist: "Waitlist"
             },
             en: {
                 about_title: "About Me",
@@ -411,7 +414,10 @@
                 contact_label_msg: "Message", contact_placeholder_msg: "How can I help you?",
                 contact_send: "Send Message", sending: "Sending...", sent: "Sent!",
                 success_msg: "Message sent successfully!", error_msg: "Oops, something went wrong.",
-                phrases: ["21 years old", "Computer Engineer"]
+                phrases: ["21 years old", "Computer Engineer"],
+                nav_home: "Home",
+                nav_projects: "My Projects",
+                nav_waitlist: "Waitlist"
             }
         };
 
@@ -458,9 +464,12 @@
             updateParticleColor();
         });
 
-        let currentLang = 'es';
+        let currentLang = localStorage.getItem('language') || 'es';
         document.getElementById('lang-toggle').addEventListener('click', (e) => {
-            currentLang = currentLang === 'es' ? 'en' : 'es'; e.target.innerText = currentLang === 'es' ? 'EN' : 'ES'; updateContent();
+            currentLang = currentLang === 'es' ? 'en' : 'es'; 
+            localStorage.setItem('language', currentLang);
+            e.target.innerText = currentLang === 'es' ? 'EN' : 'ES'; 
+            updateContent();
         });
 
         function updateContent() {
