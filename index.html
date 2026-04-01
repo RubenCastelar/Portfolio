@@ -62,7 +62,9 @@
         .preview-box { position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%) translateY(10px); width: auto; min-width: 100px; white-space: nowrap; background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid var(--card-border); border-radius: 10px; padding: 6px 12px; opacity: 0; pointer-events: none; transition: all 0.4s ease; z-index: 50; text-align: center; }
         .social-item:hover .preview-box { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
 
-        .exp-card { background: var(--card-bg); backdrop-filter: blur(10px); border: 1px solid var(--card-border); border-radius: 12px; padding: 1rem; cursor: pointer; margin-bottom: 1.5rem; position: relative; }
+        .exp-card { background: var(--card-bg); backdrop-filter: blur(10px); border: 1px solid var(--card-border); border-radius: 12px; padding: 1rem; cursor: pointer; margin-bottom: 1.5rem; position: relative; display: flex; flex-direction: column; height: 100%; }
+        .exp-card-content { flex: 1; display: flex; flex-direction: column; }
+        .exp-card-footer { margin-top: auto; padding-top: 1rem; }
         .role-title { font-weight: 700; font-size: 0.95rem; }
         .role-meta { font-size: 0.8rem; opacity: 0.4; margin-top: 0.1rem; }
         .expand-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
@@ -195,15 +197,17 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="exp-card">
                     <a href="https://www.erbi.es/" target="_blank" class="absolute inset-0 z-10" aria-label="Visitar Erbi"></a>
-                    <div class="project-preview">
-                        <img src="Erbi2.png" alt="Web Preview"> 
+                    <div class="exp-card-content">
+                        <div class="project-preview">
+                            <img src="Erbi2.png" alt="Web Preview"> 
+                        </div>
+                        <div class="flex items-center gap-3 mb-2">
+                             <div class="p-1.5 rounded-md bg-black/5 dark:bg-white/5"><i data-lucide="layout" class="w-4 h-4 text-[#1d9bf0]"></i></div>
+                             <h3 class="role-title" data-i18n="proj_1_name">SEO | Diseño de página web</h3>
+                        </div>
+                        <p class="text-xs opacity-70 italic mb-4" data-i18n="proj_1_desc">Interfaces modernas diseñadas para ofrecer una experiencia de usuario fluida y minimalista.</p>
                     </div>
-                    <div class="flex items-center gap-3 mb-2">
-                         <div class="p-1.5 rounded-md bg-black/5 dark:bg-white/5"><i data-lucide="layout" class="w-4 h-4 text-[#1d9bf0]"></i></div>
-                         <h3 class="role-title" data-i18n="proj_1_name">SEO | Diseño de página web</h3>
-                    </div>
-                    <p class="text-xs opacity-70 italic mb-4" data-i18n="proj_1_desc">Interfaces modernas diseñadas para ofrecer una experiencia de usuario fluida y minimalista.</p>
-                    <div class="flex flex-wrap gap-2 items-center relative z-20">
+                    <div class="exp-card-footer">
                         <a href="https://www.erbi.es/" target="_blank" class="tag !bg-[#1d9bf0] !text-white hover:opacity-80 transition-opacity">
                             <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                             <span data-i18n="proj_visit">Visitar</span>
@@ -213,16 +217,62 @@
 
                 <div class="exp-card">
                     <a href="waitlist.html" class="absolute inset-0 z-10" aria-label="Visitar Proyecto App"></a>
-                    <div class="project-preview">
-                        <img src="reconocimientofacial.jpg" alt="Reconocimiento facial"> 
+                    <div class="exp-card-content">
+                        <div class="project-preview">
+                            <img src="reconocimientofacial.jpg" alt="Reconocimiento facial"> 
+                        </div>
+                        <div class="flex items-center gap-3 mb-2">
+                             <div class="p-1.5 rounded-md bg-black/5 dark:bg-white/5"><i data-lucide="smartphone" class="w-4 h-4 text-[#1d9bf0]"></i></div>
+                             <h3 class="role-title" data-i18n="proj_2_name">Nailed It - App</h3>
+                        </div>
+                        <p class="text-xs opacity-70 italic mb-4" data-i18n="proj_2_desc">App de detector facial + IA para ayudar a personas que se muerden las uñas o se tocan los granos inconscientemente.</p>
                     </div>
-                    <div class="flex items-center gap-3 mb-2">
-                         <div class="p-1.5 rounded-md bg-black/5 dark:bg-white/5"><i data-lucide="smartphone" class="w-4 h-4 text-[#1d9bf0]"></i></div>
-                         <h3 class="role-title" data-i18n="proj_2_name">Detector facial + IA</h3>
-                    </div>
-                    <p class="text-xs opacity-70 italic mb-4" data-i18n="proj_2_desc">Solución para personas que se muerden las uñas o se tocan los granos inconscientemente.</p>
-                    <div class="flex flex-wrap gap-2 relative z-20">
+                    <div class="exp-card-footer">
                         <a href="waitlist.html" class="tag !bg-[#1d9bf0] !text-white hover:opacity-80 transition-opacity">
+                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                            <span data-i18n="proj_visit">Visitar</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="exp-card">
+                    <a href="https://youtu.be/x_Ik4bbJZjA?si=9YV4K1OEGgp2ecxF" target="_blank" class="absolute inset-0 z-10" aria-label="Ver Video Keylogger"></a>
+                    <div class="exp-card-content">
+                        <div class="project-preview">
+                            <img src="KeyLogger.png" alt="KeyLogger Project"> 
+                        </div>
+                        <div class="flex items-center gap-3 mb-2">
+                             <div class="p-1.5 rounded-md bg-black/5 dark:bg-white/5"><i data-lucide="terminal" class="w-4 h-4 text-red-500"></i></div>
+                             <h3 class="role-title" data-i18n="proj_key_name">Keylogger | Hackeando a mi Profesor</h3>
+                        </div>
+                        <p class="text-xs opacity-70 italic mb-4" data-i18n="proj_key_desc">Desarrollo de un Keylogger avanzado y documentación del proceso de intrusión ética.</p>
+                    </div>
+                    <div class="exp-card-footer">
+                        <a href="https://github.com/RubenCastelar/KeyLogger" target="_blank" class="tag !bg-[#333] !text-white hover:opacity-80 transition-opacity">
+                            <i data-lucide="github" class="w-3.5 h-3.5"></i>
+                            <span>Repo</span>
+                        </a>
+                        <a href="https://youtu.be/x_Ik4bbJZjA?si=9YV4K1OEGgp2ecxF" target="_blank" class="tag !bg-red-600 !text-white hover:opacity-80 transition-opacity">
+                            <i data-lucide="youtube" class="w-3.5 h-3.5"></i>
+                            <span>Video</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="exp-card">
+                    <a href="https://zuhaitzinmobiliaria.com/" target="_blank" class="absolute inset-0 z-10" aria-label="Visitar Zuhaitz Inmobiliaria"></a>
+                    <div class="exp-card-content">
+                        <div class="project-preview">
+                            <img src="ZuhaitzInmobiliaria.png" alt="Zuhaitz Inmobiliaria"> 
+                        </div>
+                        <div class="flex items-center gap-3 mb-2">
+                             <div class="p-1.5 rounded-md bg-black/5 dark:bg-white/5"><i data-lucide="home" class="w-4 h-4 text-[#1d9bf0]"></i></div>
+                             <h3 class="role-title" data-i18n="proj_zuhaitz_name">Zuhaitz Inmobiliaria</h3>
+                        </div>
+                        <p class="text-xs opacity-70 italic mb-4" data-i18n="proj_zuhaitz_desc">Página web profesional para inmobiliaria con diseño moderno y funcional.</p>
+                    </div>
+                    <div class="exp-card-footer">
+                        <a href="https://zuhaitzinmobiliaria.com/" target="_blank" class="tag !bg-[#1d9bf0] !text-white hover:opacity-80 transition-opacity">
                             <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                             <span data-i18n="proj_visit">Visitar</span>
                         </a>
@@ -381,14 +431,18 @@
         const i18n = {
             es: {
                 about_title: "Sobre mí",
-                about_1: "Soy un constructor en constante evolución que cree en el aprendizaje a través de la creación. Me apasiona trabajar en la intersección de la IA y el impacto tangible, ya sea diseñando sistemas complejos o experimentando con LLMs para materializar ideas.",
-                about_2: "En esencia, me mueve la curiosidad. No solo por la tecnología en sí, sino por cómo esta moldea nuestra forma de pensar y crecer. Esa inquietud me empuja a ir más allá del código, explorando el propósito detrás de cada desarrollo.",
-                about_3: "Para mí, el crecimiento no se mide solo en logros, sino en alcanzar una mayor disciplina y consciencia. Es un proceso de alineación personal y profesional en el que trabajo día a día.",
+                about_1: "Ingeniero Informático de 21 años, especializado en desarrollo web y aplicaciones móviles.",
+                about_2: "Apasionado por la tecnología, la ciberseguridad y la creación de soluciones innovadoras.",
+                about_3: "Buscando constantemente nuevos desafíos para expandir mis conocimientos y habilidades.",
                 projects_title: "Proyectos más recientes",
                 proj_1_name: "SEO | Diseño de página web",
                 proj_1_desc: "Interfaces modernas diseñadas para ofrecer una experiencia de usuario fluida y minimalista.",
-                proj_2_name: "Detector facial + IA",
-                proj_2_desc: "Solución para personas que se muerden las uñas o se tocan los granos inconscientemente.",
+                proj_2_name: "Nailed It - App",
+                proj_2_desc: "App de detector facial + IA para ayudar a personas que se muerden las uñas o se tocan los granos inconscientemente.",
+                proj_key_name: "Keylogger | Hackeando a mi Profesor",
+                proj_key_desc: "Desarrollo de un Keylogger avanzado y documentación del proceso de intrusión ética.",
+                proj_zuhaitz_name: "Zuhaitz Inmobiliaria",
+                proj_zuhaitz_desc: "Página web profesional para inmobiliaria con diseño moderno y funcional.",
                 proj_visit: "Visitar",
                 view_all_projects: "Ver todos mis proyectos",
                 experience_title: "Experiencia", exp_work_label: "Laboral",
@@ -399,7 +453,7 @@
                 contact_label_name: "Nombre", contact_placeholder_name: "Tu nombre...",
                 contact_label_email: "Email", contact_placeholder_email: "tu@email.com",
                 contact_label_msg: "Mensaje", contact_placeholder_msg: "¿En qué puedo ayudarte?",
-                contact_send: "Enviar Mensaje", sending: "Enviando...", sent: "¡Enviado!",
+                contact_send: "Enviar mensaje", sending: "Enviando...", sent: "¡Enviado!",
                 success_msg: "¡Mensaje enviado con éxito!", error_msg: "Ups, algo salió mal.",
                 phrases: ["21 años", "Ingeniero Informático"],
                 nav_home: "Inicio",
@@ -409,24 +463,28 @@
             en: {
                 about_title: "About Me",
                 about_1: "I see myself as a builder in motion, someone who learns by doing and evolves through creation. I thrive at the intersection of AI and real-world impact—architecting systems and experimenting with LLMs to bring ambitious ideas to life.",
-                about_2: "My curiosity extends far beyond the screen; I’m fascinated by how technology redefines the way we think, act, and grow. This drive keeps me searching for meaning and purpose in every line of code I write.",
-                about_3: "I view growth not as a collection of trophies, but as the constant pursuit of awareness and discipline. I am deeply committed to the ongoing work of aligning my daily actions with my long-term vision.",
+                about_2: "My curiosity extends far beyond the screen; I'm fascinated by how technology redefines the way we think, act, and grow. This drive keeps me searching for meaning and purpose in every line of code I write.",
+                about_3: "I'm not just interested in building for the sake of building—I want to create things that matter, that solve real problems, and that push the boundaries of what's possible with technology.",
                 projects_title: "Recent projects",
                 proj_1_name: "Website design | SEO",
                 proj_1_desc: "Modern interfaces designed to provide a fluid and minimalist user experience.",
-                proj_2_name: "Mobile Apps",
-                proj_2_desc: "Mobile solutions focused on real-world utility and optimized performance.",
+                proj_2_name: "Nailed It - App",
+                proj_2_desc: "Facial detection + AI app to help people who bite their nails or pick their pimples unconsciously.",
+                proj_key_name: "Keylogger | I Hacked My Teacher",
+                proj_key_desc: "Development of an advanced Keylogger and documentation of the ethical hacking process.",
+                proj_zuhaitz_name: "Zuhaitz Real Estate",
+                proj_zuhaitz_desc: "Professional real estate website with modern and functional design.",
                 proj_visit: "Visit",
                 view_all_projects: "View all my projects",
                 experience_title: "Experience", exp_work_label: "Work",
                 exp_role_caf: "Cybersecurity Engineer", exp_meta_caf: "Internship / Thesis · 2025 — Present", exp_desc_caf: "Improving the integrity and authenticity of RawEthernet communications within the railway environment, evolving current security mechanisms towards more robust cryptographic solutions.",
                 exp_role_tutor: "Private Programming Tutor", exp_meta_tutor: "Freelance · 2023 — 2025", exp_desc_tutor: "Academic support and mentoring in technical subjects for university students.",
                 edu_title: "Education", edu_uni: "BSc Computer Engineering - UPV/EHU", edu_honor: "Distinction in Vulnerability Detection and Exploitation", edu_hs: "Scientific High School", edu_hs_desc: "Aldapeta Maria | Real Sociedad's Most Original Idea Award.",
-                contact_title: "Contact", contact_subtitle: "Let's Connect", contact_desc: "Have a project or just want to chat?",
+                contact_title: "Contact", contact_subtitle: "Let's talk", contact_desc: "Have a project or just want to say hi?",
                 contact_label_name: "Name", contact_placeholder_name: "Your name...",
-                contact_label_email: "Email", contact_placeholder_email: "you@email.com",
-                contact_label_msg: "Message", contact_placeholder_msg: "How can I help you?",
-                contact_send: "Send Message", sending: "Sending...", sent: "Sent!",
+                contact_label_email: "Email", contact_placeholder_email: "your@email.com",
+                contact_label_msg: "Message", contact_placeholder_msg: "How can I help?",
+                contact_send: "Send message", sending: "Sending...", sent: "Sent!",
                 success_msg: "Message sent successfully!", error_msg: "Oops, something went wrong.",
                 phrases: ["21 years old", "Computer Engineer"],
                 nav_home: "Home",

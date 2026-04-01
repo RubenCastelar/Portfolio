@@ -62,8 +62,10 @@
         .preview-box { position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%) translateY(10px); width: auto; min-width: 100px; white-space: nowrap; background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid var(--card-border); border-radius: 10px; padding: 6px 12px; opacity: 0; pointer-events: none; transition: all 0.4s ease; z-index: 50; text-align: center; }
         .social-item:hover .preview-box { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
 
-        .exp-card { background: var(--card-bg); backdrop-filter: blur(10px); border: 1px solid var(--card-border); border-radius: 12px; padding: 1rem; transition: transform 0.3s ease; cursor: pointer; position: relative; }
+        .exp-card { background: var(--card-bg); backdrop-filter: blur(10px); border: 1px solid var(--card-border); border-radius: 12px; padding: 1rem; transition: transform 0.3s ease; cursor: pointer; position: relative; display: flex; flex-direction: column; height: 100%; }
         .exp-card:hover { transform: translateY(-4px); }
+        .exp-card-content { flex: 1; display: flex; flex-direction: column; }
+        .exp-card-footer { margin-top: auto; padding-top: 1rem; }
         .role-title { font-weight: 700; font-size: 0.95rem; }
         
         .tag { background: var(--tag-bg); border: 1px solid var(--card-border); border-radius: 6px; padding: 4px 10px; font-size: 0.7rem; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 6px; line-height: 1; }
@@ -162,61 +164,135 @@
 
         <section class="fade-in-section mb-20">
             <h2 class="terminal-title" data-i18n="projects_title">Proyectos</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="exp-card">
-                    <a href="https://www.erbi.es/" target="_blank" class="absolute inset-0 z-10" aria-label="Visitar Erbi"></a>
-                    <div class="project-preview">
-                        <img src="Erbi2.png" alt="Erbi Web"> 
-                    </div>
-                    <div class="flex items-center gap-3 mb-2">
-                         <div class="p-1.5 rounded-md bg-black/5 dark:bg-white/5"><i data-lucide="layout" class="w-4 h-4 text-[#1d9bf0]"></i></div>
-                         <h3 class="role-title" data-i18n="proj_1_name">Erbi Web Design</h3>
-                    </div>
-                    <p class="text-xs opacity-70 italic mb-4" data-i18n="proj_1_desc">Interfaces modernas diseñadas para ofrecer una experiencia de usuario fluida y minimalista.</p>
-                    <div class="flex flex-wrap gap-2 items-center relative z-20">
-                        <div class="tag !bg-[#1d9bf0] !text-white">
-                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                            <span data-i18n="proj_visit">Visitar</span>
+            
+            <!-- Apps -->
+            <div class="mb-12">
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                    <div class="p-1.5 rounded-md bg-black/5 dark:bg-white/5"><i data-lucide="smartphone" class="w-4 h-4 text-purple-500"></i></div>
+                    Apps
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="exp-card">
+                        <a href="waitlist.html" class="absolute inset-0 z-10" aria-label="Visitar Detector Facial"></a>
+                        <div class="exp-card-content">
+                            <div class="project-preview">
+                                <img src="reconocimientofacial.jpg" alt="Reconocimiento Facial"> 
+                            </div>
+                            <div class="flex items-center gap-3 mb-2">
+                                 <div class="p-1.5 rounded-md bg-black/5 dark:bg-white/5"><i data-lucide="smartphone" class="w-4 h-4 text-[#1d9bf0]"></i></div>
+                                 <h3 class="role-title" data-i18n="proj_2_name">Nailed It - App</h3>
+                            </div>
+                            <p class="text-xs opacity-70 italic mb-4" data-i18n="proj_2_desc">App de detector facial + IA para ayudar a personas que se muerden las uñas o se tocan los granos inconscientemente.</p>
+                        </div>
+                        <div class="exp-card-footer">
+                            <a href="waitlist.html" class="tag !bg-[#1d9bf0] !text-white hover:opacity-80 transition-opacity">
+                                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                                <span data-i18n="proj_visit">Visitar</span>
+                            </a> 
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="exp-card">
-                    <a href="waitlist.html" class="absolute inset-0 z-10" aria-label="Visitar Detector Facial"></a>
-                    <div class="project-preview">
-                        <img src="reconocimientofacial.jpg" alt="Reconocimiento Facial"> 
+            <!-- Páginas Web | SEO -->
+            <div class="mb-12">
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                    <div class="p-1.5 rounded-md bg-black/5 dark:bg-white/5"><i data-lucide="layout" class="w-4 h-4 text-[#1d9bf0]"></i></div>
+                    Páginas Web | SEO
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="exp-card">
+                        <a href="https://www.erbi.es/" target="_blank" class="absolute inset-0 z-10" aria-label="Visitar Erbi"></a>
+                        <div class="exp-card-content">
+                            <div class="project-preview">
+                                <img src="Erbi2.png" alt="Erbi Web"> 
+                            </div>
+                            <div class="flex items-center gap-3 mb-2">
+                                 <div class="p-1.5 rounded-md bg-black/5 dark:bg-white/5"><i data-lucide="layout" class="w-4 h-4 text-[#1d9bf0]"></i></div>
+                                 <h3 class="role-title" data-i18n="proj_1_name">Erbi Web Design</h3>
+                            </div>
+                            <p class="text-xs opacity-70 italic mb-4" data-i18n="proj_1_desc">Interfaces modernas diseñadas para ofrecer una experiencia de usuario fluida y minimalista.</p>
+                        </div>
+                        <div class="exp-card-footer">
+                            <div class="tag !bg-[#1d9bf0] !text-white">
+                                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                                <span data-i18n="proj_visit">Visitar</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex items-center gap-3 mb-2">
-                         <div class="p-1.5 rounded-md bg-black/5 dark:bg-white/5"><i data-lucide="smartphone" class="w-4 h-4 text-[#1d9bf0]"></i></div>
-                         <h3 class="role-title" data-i18n="proj_2_name">Detector facial + IA</h3>
-                    </div>
-                    <p class="text-xs opacity-70 italic mb-4" data-i18n="proj_2_desc">Solución para personas que se muerden las uñas o se tocan los granos inconscientemente.</p>
-                    <div class="flex flex-wrap gap-2 relative z-20">
-                        <a href="waitlist.html" class="tag !bg-[#1d9bf0] !text-white hover:opacity-80 transition-opacity">
-                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                            <span data-i18n="proj_visit">Visitar</span>
-                        </a> 
+
+                    <div class="exp-card">
+                        <a href="https://zuhaitzinmobiliaria.com/" target="_blank" class="absolute inset-0 z-10" aria-label="Visitar Zuhaitz Inmobiliaria"></a>
+                        <div class="exp-card-content">
+                            <div class="project-preview">
+                                <img src="ZuhaitzInmobiliaria.png" alt="Zuhaitz Inmobiliaria"> 
+                            </div>
+                            <div class="flex items-center gap-3 mb-2">
+                                 <div class="p-1.5 rounded-md bg-black/5 dark:bg-white/5"><i data-lucide="home" class="w-4 h-4 text-[#1d9bf0]"></i></div>
+                                 <h3 class="role-title" data-i18n="proj_zuhaitz_name">Zuhaitz Inmobiliaria</h3>
+                            </div>
+                            <p class="text-xs opacity-70 italic mb-4" data-i18n="proj_zuhaitz_desc">Página web profesional para inmobiliaria con diseño moderno y funcional.</p>
+                        </div>
+                        <div class="exp-card-footer">
+                            <a href="https://zuhaitzinmobiliaria.com/" target="_blank" class="tag !bg-[#1d9bf0] !text-white hover:opacity-80 transition-opacity">
+                                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                                <span data-i18n="proj_visit">Visitar</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="exp-card">
-                    <a href="https://youtu.be/x_Ik4bbJZjA?si=9YV4K1OEGgp2ecxF" target="_blank" class="absolute inset-0 z-10" aria-label="Ver Video Keylogger"></a>
-                    <div class="project-preview">
-                        <img src="KeyLogger.png" alt="KeyLogger Project"> 
+            <!-- Ciberseguridad -->
+            <div class="mb-12">
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                    <div class="p-1.5 rounded-md bg-black/5 dark:bg-white/5"><i data-lucide="shield" class="w-4 h-4 text-red-500"></i></div>
+                    Ciberseguridad
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="exp-card">
+                        <a href="https://youtu.be/x_Ik4bbJZjA?si=9YV4K1OEGgp2ecxF" target="_blank" class="absolute inset-0 z-10" aria-label="Ver Video Keylogger"></a>
+                        <div class="exp-card-content">
+                            <div class="project-preview">
+                                <img src="KeyLogger.png" alt="KeyLogger Project"> 
+                            </div>
+                            <div class="flex items-center gap-3 mb-2">
+                                 <div class="p-1.5 rounded-md bg-black/5 dark:bg-white/5"><i data-lucide="terminal" class="w-4 h-4 text-red-500"></i></div>
+                                 <h3 class="role-title" data-i18n="proj_key_name">Keylogger Project</h3>
+                            </div>
+                            <p class="text-xs opacity-70 italic mb-4" data-i18n="proj_key_desc">Desarrollo de un Keylogger avanzado y documentación del proceso de intrusión ética.</p>
+                        </div>
+                        <div class="exp-card-footer">
+                            <a href="https://github.com/RubenCastelar/KeyLogger" target="_blank" class="tag !bg-[#333] !text-white hover:opacity-80 transition-opacity">
+                                <i data-lucide="github" class="w-3.5 h-3.5"></i>
+                                <span>Repo</span>
+                            </a>
+                            <a href="https://youtu.be/x_Ik4bbJZjA?si=9YV4K1OEGgp2ecxF" target="_blank" class="tag !bg-red-600 !text-white hover:opacity-80 transition-opacity">
+                                <i data-lucide="youtube" class="w-3.5 h-3.5"></i>
+                                <span>Video</span>
+                            </a>
+                        </div>
                     </div>
-                    <div class="flex items-center gap-3 mb-2">
-                         <div class="p-1.5 rounded-md bg-black/5 dark:bg-white/5"><i data-lucide="terminal" class="w-4 h-4 text-red-500"></i></div>
-                         <h3 class="role-title" data-i18n="proj_key_name">Keylogger Project</h3>
-                    </div>
-                    <p class="text-xs opacity-70 italic mb-4" data-i18n="proj_key_desc">Desarrollo de un Keylogger avanzado y documentación del proceso de intrusión ética.</p>
-                    <div class="flex flex-wrap gap-2 items-center relative z-20">
-                        <a href="https://github.com/RubenCastelar/KeyLogger" target="_blank" class="tag !bg-[#333] !text-white hover:opacity-80 transition-opacity">
-                            <i data-lucide="github" class="w-3.5 h-3.5"></i>
-                            <span>Repo</span>
-                        </a>
-                        <div class="tag !bg-red-600 !text-white">
-                            <i data-lucide="youtube" class="w-3.5 h-3.5"></i>
-                            <span>Video</span>
+                </div>
+            </div>
+
+            <!-- Automatizaciones -->
+            <div class="mb-12">
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                    <div class="p-1.5 rounded-md bg-black/5 dark:bg-white/5"><i data-lucide="cpu" class="w-4 h-4 text-green-500"></i></div>
+                    Automatizaciones
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="exp-card opacity-50">
+                        <div class="exp-card-content">
+                            <div class="project-preview bg-black/5 dark:bg-white/5 flex items-center justify-center">
+                                <i data-lucide="plus" class="w-8 h-8 text-gray-400"></i>
+                            </div>
+                            <div class="flex items-center gap-3 mb-2">
+                                 <div class="p-1.5 rounded-md bg-black/5 dark:bg-white/5"><i data-lucide="cpu" class="w-4 h-4 text-gray-400"></i></div>
+                                 <h3 class="role-title text-gray-400">Próximamente</h3>
+                            </div>
+                            <p class="text-xs opacity-70 italic mb-4 text-gray-400">Proyectos de automatización en desarrollo.</p>
                         </div>
                     </div>
                 </div>
@@ -293,10 +369,12 @@
                 projects_title: "Proyectos",
                 proj_1_name: "SEO | Diseño de página web",
                 proj_1_desc: "Interfaces modernas diseñadas para ofrecer una experiencia de usuario fluida y minimalista.",
-                proj_2_name: "Detector facial + IA",
-                proj_2_desc: "Solución para personas que se muerden las uñas o se tocan los granos inconscientemente.",
-                proj_key_name: "Hackeando a mi Profesor | Keylogger",
+                proj_2_name: "Nailed It - App",
+                proj_2_desc: "App de detector facial + IA para ayudar a personas que se muerden las uñas o se tocan los granos inconscientemente.",
+                proj_key_name: "Keylogger | Hackeando a mi Profesor",
                 proj_key_desc: "Desarrollo de un Keylogger avanzado y documentación del proceso de intrusión ética.",
+                proj_zuhaitz_name: "Zuhaitz Inmobiliaria",
+                proj_zuhaitz_desc: "Página web profesional para inmobiliaria con diseño moderno y funcional.",
                 proj_visit: "Visitar",
                 phrases: ["21 años", "Ingeniero Informático"],
                 nav_home: "Inicio",
@@ -307,10 +385,12 @@
                 projects_title: "Projects",
                 proj_1_name: "Website design | SEO",
                 proj_1_desc: "Modern interfaces designed to provide a fluid and minimalist user experience.",
-                proj_2_name: "Mobile Apps",
-                proj_2_desc: "Mobile solutions focused on real-world utility and optimized performance.",
-                proj_key_name: "I Hacked My Teacher | Keylogger",
+                proj_2_name: "Nailed It - App",
+                proj_2_desc: "Facial detection + AI app to help people who bite their nails or pick their pimples unconsciously.",
+                proj_key_name: "Keylogger | I Hacked My Teacher",
                 proj_key_desc: "Development of an advanced Keylogger and documentation of the ethical hacking process.",
+                proj_zuhaitz_name: "Zuhaitz Real Estate",
+                proj_zuhaitz_desc: "Professional real estate website with modern and functional design.",
                 proj_visit: "Visit",
                 phrases: ["21 years old", "Computer Engineer"],
                 nav_home: "Home",
