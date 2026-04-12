@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rubén Castelar | Waitlist</title>
+    <title>Rubén Castelar | Newsletter</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -62,13 +62,10 @@
         .preview-box { position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%) translateY(10px); width: auto; min-width: 100px; white-space: nowrap; background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid var(--card-border); border-radius: 10px; padding: 6px 12px; opacity: 0; pointer-events: none; transition: all 0.4s ease; z-index: 50; text-align: center; }
         .social-item:hover .preview-box { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
 
-        .waitlist-card { background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid var(--card-border); border-radius: 24px; padding: 2.5rem 2rem; width: 100%; max-width: 450px; text-align: center; }
-        
-        .email-input { background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-main); transition: all 0.3s ease; }
-        .email-input:focus { outline: none; border-color: #1d9bf0; outline: 2px solid #1d9bf033; }
+        .newsletter-card { background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid var(--card-border); border-radius: 24px; padding: 2.5rem 2rem; width: 100%; max-width: 450px; text-align: center; }
 
-        .submit-btn { background: #1d9bf0; color: white; transition: all 0.3s ease; font-weight: 700; letter-spacing: 0.025em; }
-        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -10px rgba(29, 155, 240, 0.5); opacity: 0.9; }
+        .newsletter-btn { background: #1d9bf0; color: white; transition: all 0.3s ease; font-weight: 700; letter-spacing: 0.025em; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+        .newsletter-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -10px rgba(29, 155, 240, 0.5); opacity: 0.9; }
 
         .nav-link.active { background: var(--text-main); color: var(--bg-color); opacity: 1; }
         .letter { display: inline-block; opacity: 0; transform: translateY(-10px); transition: all 0.5s ease; }
@@ -81,7 +78,7 @@
         <div class="flex items-center gap-1 p-1 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-md border border-black/5 dark:border-white/10 rounded-full shadow-sm">
             <a href="index.html" class="nav-link px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 hover:opacity-100 opacity-50" id="nav-inicio" data-i18n="nav_home">Inicio</a>
             <a href="proyectos.html" class="nav-link px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 hover:opacity-100 opacity-50" id="nav-proyectos" data-i18n="nav_projects">Mis Proyectos</a>
-            <a href="waitlist.html" class="nav-link px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 hover:opacity-100 opacity-50" id="nav-waitlist" data-i18n="nav_waitlist">Waitlist</a>
+            <a href="waitlist.html" class="nav-link px-4 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-300 hover:opacity-100 opacity-50" id="nav-waitlist" data-i18n="nav_newsletter">Newsletter</a>
         </div>
     </nav>
 
@@ -111,25 +108,18 @@
             <div class="h-6 mt-1 flex items-center justify-center"><p id="dynamic-text" class="text-secondary font-medium text-sm tracking-wide"></p></div>
         </header>
 
-        <div class="waitlist-card fade-in-section" id="form-section">
-            <h2 class="terminal-title" data-i18n="waitlist_title">Próximamente</h2>
-            <div id="form-content">
-                <h3 class="text-2xl font-bold mb-3" data-i18n="app_launch">Mi nueva App está llegando</h3>
-                <p class="text-sm opacity-70 mb-8 px-4" data-i18n="waitlist_desc">Únete a la lista de espera exclusiva para ser el primero en probar lo que estoy construyendo.</p>
-                
-                <form id="waitlist-form" action="https://formspree.io/f/xbdpkdob" method="POST" class="space-y-3">
-                    <input type="email" name="email" placeholder="tu@email.com" class="email-input w-full px-5 py-4 rounded-xl text-sm font-medium" required>
-                    
-                    <div class="flex items-start gap-2 p-3 bg-black/5 dark:bg-white/5 rounded-lg">
-                        <input type="checkbox" id="privacy-consent" name="privacy_consent" required class="mt-1 w-4 h-4 text-[#1d9bf0] bg-black/5 dark:bg-white/5 border-black/20 dark:border-white/20 rounded focus:ring-[#1d9bf0] focus:ring-2">
-                        <label for="privacy-consent" class="text-xs opacity-70 leading-relaxed cursor-pointer" id="privacy-label">
-                            <!-- Text will be set by JavaScript -->
-                        </label>
+        <div class="newsletter-card fade-in-section" id="form-section">
+            <h2 class="terminal-title" data-i18n="newsletter_title">Newsletter</h2>
+            <div class="mb-6">
+                <div class="flex justify-center mb-5">
+                    <div class="p-4 rounded-2xl bg-[#1d9bf0]/10">
+                        <i data-lucide="mail" class="w-8 h-8 text-[#1d9bf0]"></i>
                     </div>
-                    
-                    <button type="submit" id="submit-btn" class="submit-btn w-full py-4 rounded-xl text-sm" data-i18n="join_btn">Apuntarme a la lista</button>
-                </form>
+                </div>
+                <h3 class="text-2xl font-bold mb-3" data-i18n="newsletter_heading">Por qué nadie me lo contó antes?</h3>
+                <p class="text-sm opacity-70 mb-8 px-4" data-i18n="newsletter_desc">Hablo sobre lo que me gustaría que alguien me hubiese explicado antes. Pero como nadie lo hizo por mi, ya lo hago yo por ti.</p>
             </div>
+            <a href="https://rubicastelar.substack.com/p/como-he-clonado-mi-propia-voz-de" target="_blank" class="newsletter-btn w-full py-4 rounded-xl text-sm" data-i18n="subscribe_btn">Suscribirme a la Newsletter</a>
         </div>
 
         <footer class="fade-in-section mt-12 w-full">
@@ -168,65 +158,6 @@
         </footer>
     </main>
 
-    <!-- Privacy Modal -->
-    <div id="privacy-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden items-center justify-center p-6">
-        <div class="bg-white dark:bg-zinc-900 rounded-2xl max-w-md w-full max-h-[80vh] overflow-y-auto">
-            <div class="p-6">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-lg font-bold" data-i18n="privacy_title">Política de Privacidad</h3>
-                    <button onclick="closePrivacyModal()" class="p-2 hover:bg-black/10 dark:hover:bg-white/10 rounded-lg transition-colors">
-                        <i data-lucide="x" class="w-4 h-4"></i>
-                    </button>
-                </div>
-                
-                <div class="space-y-4 text-sm opacity-80">
-                    <div>
-                        <h4 class="font-semibold mb-2" data-i18n="privacy_responsible">Responsable del Tratamiento</h4>
-                        <p data-i18n="privacy_responsible_text">Rubén Castelar Zaballos - Contacto: rubencastelarcontacto@gmail.com</p>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-semibold mb-2" data-i18n="privacy_purpose">Finalidad</h4>
-                        <p data-i18n="privacy_purpose_text">Tus datos personales serán utilizados exclusivamente para informarte sobre el lanzamiento y novedades de la aplicación Nailed It, así como para enviarte comunicaciones relacionadas con sus funcionalidades y disponibilidad.</p>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-semibold mb-2" data-i18n="privacy_data">Datos Recopilados</h4>
-                        <p data-i18n="privacy_data_text">• Dirección de correo electrónico<br>• Fecha de suscripción a la lista de espera</p>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-semibold mb-2" data-i18n="privacy_legitimacy">Legitimación</h4>
-                        <p data-i18n="privacy_legitimacy_text">El tratamiento de tus datos se basa en tu consentimiento explícito, que otorgas al marcar la casilla correspondiente.</p>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-semibold mb-2" data-i18n="privacy_retention">Conservación</h4>
-                        <p data-i18n="privacy_retention_text">Tus datos se conservarán mientras mantengas tu suscripción a la lista de espera y serán eliminados cuando solicites su baja o cuando la aplicación sea lanzada y hayas decidido no continuar.</p>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-semibold mb-2" data-i18n="privacy_rights">Derechos</h4>
-                        <p data-i18n="privacy_rights_text">Según el RGPD, tienes derecho a:<br>• Acceder a tus datos<br>• Rectificarlos<br>• Suprimirlos<br>• Limitar su tratamiento<br>• Oponerte al tratamiento<br>• Solicitar la portabilidad de los datos</p>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-semibold mb-2" data-i18n="privacy_security">Seguridad</h4>
-                        <p data-i18n="privacy_security_text">Implementamos medidas de seguridad adecuadas para proteger tus datos personales contra acceso no autorizado, alteración, pérdida o destrucción.</p>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-semibold mb-2" data-i18n="privacy_sharing">Cesión de Datos</h4>
-                        <p data-i18n="privacy_sharing_text">No cederemos tus datos personales a terceros, salvo obligación legal o con tu consentimiento explícito.</p>
-                    </div>
-                </div>
-                
-                <div class="mt-6 pt-4 border-t border-black/10 dark:border-white/10">
-                    <p class="text-xs opacity-60" data-i18n="privacy_updated">Esta política se actualizó por última vez en abril de 2026.</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script>
         // MOTOR DE PARTÍCULAS
@@ -293,107 +224,28 @@
             requestAnimationFrame(animateParticles);
         }
 
-        // LÓGICA DE ENVÍO DE FORMULARIO (SINFÍN DE RECARGA)
-        const waitlistForm = document.getElementById('waitlist-form');
-        const formContainer = document.getElementById('form-content');
-
-        waitlistForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = document.getElementById('submit-btn');
-            submitBtn.innerText = currentLang === 'es' ? 'Enviando...' : 'Sending...';
-            submitBtn.disabled = true;
-
-            const formData = new FormData(waitlistForm);
-            
-            try {
-                const response = await fetch(waitlistForm.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: { 'Accept': 'application/json' }
-                });
-
-                if (response.ok) {
-                    formContainer.innerHTML = `
-                        <div class="py-8 animate-pulse">
-                            <div class="flex justify-center mb-4">
-                                <div class="bg-green-500/10 p-3 rounded-full">
-                                    <i data-lucide="check-circle" class="text-green-500 w-8 h-8"></i>
-                                </div>
-                            </div>
-                            <h3 class="text-xl font-bold mb-2">${currentLang === 'es' ? '¡Ya estás en la lista!' : 'You are on the list!'}</h3>
-                            <p class="text-sm opacity-70">${currentLang === 'es' ? 'Te avisaré personalmente cuando todo esté listo.' : 'I will notify you personally when everything is ready.'}</p>
-                        </div>
-                    `;
-                    lucide.createIcons();
-                } else {
-                    throw new Error();
-                }
-            } catch (error) {
-                alert(currentLang === 'es' ? 'Error al enviar. Inténtalo de nuevo.' : 'Error sending. Please try again.');
-                submitBtn.innerText = currentLang === 'es' ? 'Apuntarme a la lista' : 'Join Waitlist';
-                submitBtn.disabled = false;
-            }
-        });
 
         // TRADUCCIONES Y TEMAS
         const i18n = {
             es: {
-                waitlist_title: "Próximamente",
-                app_launch: "Nailed It está llegando",
-                waitlist_desc: "Únete a la lista de espera exclusiva para ser el primero en probarlo.",
-                join_btn: "Apuntarme a la lista",
-                privacy_consent: "Acepto el <a href='#' class='text-[#1d9bf0] hover:underline' onclick='showPrivacyModal(); return false;'>tratamiento de mis datos personales</a> para recibir información sobre el lanzamiento de la app, conforme a la política de privacidad y RGPD.",
-                privacy_title: "Política de Privacidad",
-                privacy_responsible: "Responsable del Tratamiento",
-                privacy_responsible_text: "Rubén Castelar Zaballos - Contacto: rubencastelarcontacto@gmail.com",
-                privacy_purpose: "Finalidad",
-                privacy_purpose_text: "Tus datos personales serán utilizados exclusivamente para informarte sobre el lanzamiento y novedades de la aplicación Nailed It, así como para enviarte comunicaciones relacionadas con sus funcionalidades y disponibilidad.",
-                privacy_data: "Datos Recopilados",
-                privacy_data_text: "• Dirección de correo electrónico<br>• Fecha de suscripción a la lista de espera",
-                privacy_legitimacy: "Legitimación",
-                privacy_legitimacy_text: "El tratamiento de tus datos se basa en tu consentimiento explícito, que otorgas al marcar la casilla correspondiente.",
-                privacy_retention: "Conservación",
-                privacy_retention_text: "Tus datos se conservarán mientras mantengas tu suscripción a la lista de espera y serán eliminados cuando solicites su baja o cuando la aplicación sea lanzada y hayas decidido no continuar.",
-                privacy_rights: "Derechos",
-                privacy_rights_text: "Según el RGPD, tienes derecho a:<br>• Acceder a tus datos<br>• Rectificarlos<br>• Suprimirlos<br>• Limitar su tratamiento<br>• Oponerte al tratamiento<br>• Solicitar la portabilidad de los datos",
-                privacy_security: "Seguridad",
-                privacy_security_text: "Implementamos medidas de seguridad adecuadas para proteger tus datos personales contra acceso no autorizado, alteración, pérdida o destrucción.",
-                privacy_sharing: "Cesión de Datos",
-                privacy_sharing_text: "No cederemos tus datos personales a terceros, salvo obligación legal o con tu consentimiento explícito.",
-                privacy_updated: "Esta política se actualizó por última vez en abril de 2026.",
-                phrases: ["App en desarrollo", "Waitlist abierta"],
+                newsletter_title: "Newsletter",
+                newsletter_heading: "Por qué nadie me lo contó antes?",
+                newsletter_desc: "Hablo sobre lo que me gustaría que alguien me hubiese explicado antes. Pero como nadie lo hizo por mi, ya lo hago yo por ti.",
+                subscribe_btn: "Suscribirme a la Newsletter",
+                phrases: ["IA y Tech", "Newsletter"],
                 nav_home: "Inicio",
                 nav_projects: "Mis Proyectos",
-                nav_waitlist: "Waitlist"
+                nav_newsletter: "Newsletter"
             },
             en: {
-                waitlist_title: "Coming Soon",
-                app_launch: "Nailed It is coming",
-                waitlist_desc: "Join the exclusive waitlist to be the first to try it.",
-                join_btn: "Join Waitlist",
-                privacy_consent: "I accept the <a href='#' class='text-[#1d9bf0] hover:underline' onclick='showPrivacyModal(); return false;'>processing of my personal data</a> to receive information about the app launch, in accordance with the privacy policy and GDPR.",
-                privacy_title: "Privacy Policy",
-                privacy_responsible: "Data Controller",
-                privacy_responsible_text: "Rubén Castelar Zaballos - Contact: rubencastelarcontacto@gmail.com",
-                privacy_purpose: "Purpose",
-                privacy_purpose_text: "Your personal data will be used exclusively to inform you about the launch and news of the Nailed It application, as well as to send you communications related to its features and availability.",
-                privacy_data: "Data Collected",
-                privacy_data_text: "• Email address<br>• Waitlist subscription date",
-                privacy_legitimacy: "Legal Basis",
-                privacy_legitimacy_text: "The processing of your data is based on your explicit consent, which you grant by checking the corresponding box.",
-                privacy_retention: "Data Retention",
-                privacy_retention_text: "Your data will be kept while you maintain your subscription to the waitlist and will be deleted when you request cancellation or when the application is launched and you have decided not to continue.",
-                privacy_rights: "Your Rights",
-                privacy_rights_text: "Under GDPR, you have the right to:<br>• Access your data<br>• Rectify it<br>• Erase it<br>• Restrict processing<br>• Object to processing<br>• Request data portability",
-                privacy_security: "Security",
-                privacy_security_text: "We implement appropriate security measures to protect your personal data against unauthorized access, alteration, loss, or destruction.",
-                privacy_sharing: "Data Sharing",
-                privacy_sharing_text: "We will not share your personal data with third parties, except by legal obligation or with your explicit consent.",
-                privacy_updated: "This policy was last updated in April 2026.",
-                phrases: ["App in progress", "Waitlist open"],
+                newsletter_title: "Newsletter",
+                newsletter_heading: "Why didn't anyone tell me this before?",
+                newsletter_desc: "I talk about what I wish someone had explained to me earlier. But since no one did it for me, I'm doing it for you.",
+                subscribe_btn: "Subscribe to Newsletter",
+                phrases: ["AI & Tech", "Newsletter"],
                 nav_home: "Home",
                 nav_projects: "My Projects",
-                nav_waitlist: "Waitlist"
+                nav_newsletter: "Newsletter"
             }
         };
 
@@ -414,19 +266,8 @@
 
         function updateContent() {
             document.querySelectorAll('[data-i18n]').forEach(el => { 
-                if(el.getAttribute('data-i18n') === 'join_btn' && el.tagName === 'BUTTON') {
-                    el.innerText = i18n[currentLang].join_btn;
-                } else {
-                    el.innerText = i18n[currentLang][el.getAttribute('data-i18n')]; 
-                }
+                el.innerText = i18n[currentLang][el.getAttribute('data-i18n')]; 
             });
-            
-            // Update privacy consent label with HTML content
-            const privacyLabel = document.getElementById('privacy-label');
-            if (privacyLabel) {
-                privacyLabel.innerHTML = i18n[currentLang].privacy_consent;
-            }
-            
             currentIndex = 0; animateCycle();
         }
 
@@ -471,34 +312,6 @@
         updateContent();
         lucide.createIcons();
 
-        // Privacy Modal Functions
-        function showPrivacyModal() {
-            const modal = document.getElementById('privacy-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closePrivacyModal() {
-            const modal = document.getElementById('privacy-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            document.body.style.overflow = '';
-        }
-
-        // Close modal when clicking outside
-        document.getElementById('privacy-modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closePrivacyModal();
-            }
-        });
-
-        // Close modal with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closePrivacyModal();
-            }
-        });
     </script>
 </body>
 </html>
